@@ -7,8 +7,13 @@ A companion app to [WP Debug](https://github.com/jonathanbossenger/wp-debug) tha
 - **Connect to WordPress**: Select your local WordPress installation directory
 - **Execute PHP Code**: Run any WordPress PHP code in the WordPress context
 - **View Output**: See the results of your code execution in real-time
-- **Code Editor**: Built-in code editor with syntax highlighting and keyboard shortcuts
+- **Code Editor**: Monaco Editor with IntelliSense support
+  - **Code Completion**: WordPress and PHP function autocomplete
+  - **Parameter Info**: See function parameters as you type
+  - **Quick Info**: Hover over functions for documentation
+  - **Syntax Highlighting**: Full PHP syntax support
 - **Recent Directories**: Quick access to recently used WordPress installations
+- **Keyboard Shortcuts**: Ctrl/Cmd + Enter to execute code
 
 ## Installation
 
@@ -37,9 +42,11 @@ npm run make
 
 1. Launch the application
 2. Select your WordPress installation directory
-3. Write your PHP code in the editor
+3. Write your PHP code in the editor (with IntelliSense support!)
 4. Press `Ctrl/Cmd + Enter` or click "Execute Code" to run your code
 5. View the output in the output panel
+
+For more details on IntelliSense features, see [INTELLISENSE.md](INTELLISENSE.md).
 
 ## Requirements
 
