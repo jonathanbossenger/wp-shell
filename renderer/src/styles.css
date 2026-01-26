@@ -45,7 +45,6 @@ code {
   background: #f8f9fa;
   border-radius: 8px;
   overflow: auto;
-  max-height: 400px;
 }
 
 .output-content {
