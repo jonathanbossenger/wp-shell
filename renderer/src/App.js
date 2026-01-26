@@ -9,6 +9,21 @@ function App() {
   const [output, setOutput] = useState('');
   const [isExecuting, setIsExecuting] = useState(false);
   const [error, setError] = useState(null);
+  const [functionDefinitions, setFunctionDefinitions] = useState(null);
+  const [isLoadingDefinitions, setIsLoadingDefinitions] = useState(false);
+
+  const loadFunctionDefinitions = async (directory) => {
+    setIsLoadingDefinitions(true);
+    try {
+      const definitions = await window.electronAPI.getFunctionDefinitions(directory);
+      setFunctionDefinitions(definitions);
+    } catch (error) {
+      console.error('Error loading function definitions:', error);
+      // Don't show error to user, IntelliSense will just not work
+      setFunctionDefinitions(null);
+    }
+    setIsLoadingDefinitions(false);
+  };
 
   const handleSelectDirectory = async () => {
     setIsSelecting(true);
@@ -17,6 +32,7 @@ function App() {
       const directory = await window.electronAPI.selectDirectory();
       if (directory) {
         setSelectedDirectory(directory);
+        await loadFunctionDefinitions(directory);
       }
     } catch (error) {
       console.error('Error selecting directory:', error);
@@ -33,6 +49,7 @@ function App() {
       const validatedDirectory = await window.electronAPI.selectRecentDirectory(directory);
       if (validatedDirectory) {
         setSelectedDirectory(validatedDirectory);
+        await loadFunctionDefinitions(validatedDirectory);
       }
     } catch (error) {
       console.error('Error selecting directory:', error);
@@ -125,6 +142,8 @@ function App() {
                       value={code}
                       onChange={setCode}
                       onKeyDown={handleKeyDown}
+                      functionDefinitions={functionDefinitions}
+                      isLoadingDefinitions={isLoadingDefinitions}
                     />
                   </div>
                   <div className="flex gap-3 flex-none mt-4">

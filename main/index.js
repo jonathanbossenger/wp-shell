@@ -270,6 +270,143 @@ ipcMain.handle('execute-code', async (event, wpDirectory, code) => {
   }
 });
 
+// Handle getting function definitions for IntelliSense
+ipcMain.handle('get-function-definitions', async (event, wpDirectory) => {
+  try {
+    // Create a PHP script to extract function definitions
+    const tempFile = path.join(wpDirectory, 'wp-shell-definitions.php');
+    
+    const wpLoadPath = path.join(wpDirectory, 'wp-load.php').replace(/\\/g, '/');
+    
+    const definitionsScript = `<?php
+define('WP_USE_THEMES', false);
+require_once('${wpLoadPath}');
+
+// Get PHP version
+$phpVersion = PHP_VERSION;
+
+// Get WordPress version
+$wpVersion = get_bloginfo('version');
+
+// Get all defined functions
+$allFunctions = get_defined_functions();
+$userFunctions = array_merge($allFunctions['internal'], $allFunctions['user']);
+
+// Filter to get WordPress-specific functions (functions that don't exist in base PHP)
+$wpFunctions = [];
+$phpFunctions = [];
+
+foreach ($userFunctions as $functionName) {
+  // Skip internal PHP functions for WordPress list
+  if (in_array($functionName, $allFunctions['internal'])) {
+    continue;
+  }
+  
+  try {
+    $reflection = new ReflectionFunction($functionName);
+    $params = [];
+    
+    foreach ($reflection->getParameters() as $param) {
+      $paramInfo = [
+        'name' => $param->getName(),
+        'optional' => $param->isOptional(),
+        'hasType' => $param->hasType(),
+        'type' => $param->hasType() ? (string)$param->getType() : null,
+      ];
+      
+      if ($param->isDefaultValueAvailable()) {
+        try {
+          $default = $param->getDefaultValue();
+          $paramInfo['default'] = is_array($default) ? 'array()' : var_export($default, true);
+        } catch (Exception $e) {
+          $paramInfo['default'] = null;
+        }
+      }
+      
+      $params[] = $paramInfo;
+    }
+    
+    $wpFunctions[] = [
+      'name' => $functionName,
+      'params' => $params,
+      'file' => $reflection->getFileName(),
+      'docComment' => $reflection->getDocComment() ?: '',
+    ];
+  } catch (Exception $e) {
+    // Skip functions that can't be reflected
+    continue;
+  }
+}
+
+// Get common PHP functions with their signatures
+foreach ($allFunctions['internal'] as $functionName) {
+  // Only include commonly used PHP functions to avoid overwhelming the editor
+  // We'll include all string, array, file, and common utility functions
+  if (preg_match('/^(str|array|file|is_|print|echo|var_|json_|serialize|unserialize|count|empty|isset|in_array|explode|implode|trim|sprintf|date|time|preg_)/', $functionName)) {
+    try {
+      $reflection = new ReflectionFunction($functionName);
+      $params = [];
+      
+      foreach ($reflection->getParameters() as $param) {
+        $params[] = [
+          'name' => $param->getName(),
+          'optional' => $param->isOptional(),
+        ];
+      }
+      
+      $phpFunctions[] = [
+        'name' => $functionName,
+        'params' => $params,
+      ];
+    } catch (Exception $e) {
+      continue;
+    }
+  }
+}
+
+// Return as JSON
+echo json_encode([
+  'phpVersion' => $phpVersion,
+  'wpVersion' => $wpVersion,
+  'wordpressFunctions' => $wpFunctions,
+  'phpFunctions' => $phpFunctions,
+], JSON_PRETTY_PRINT);
+?>`;
+
+    await fs.promises.writeFile(tempFile, definitionsScript);
+
+    return new Promise((resolve, reject) => {
+      exec(\`php \${tempFile}\`, {
+        cwd: wpDirectory,
+        maxBuffer: 50 * 1024 * 1024, // 50MB buffer for large function lists
+        timeout: 60000, // 60 second timeout
+      }, async (error, stdout, stderr) => {
+        // Clean up temp file
+        try {
+          await fs.promises.unlink(tempFile);
+        } catch (e) {
+          console.error('Error deleting temp file:', e);
+        }
+
+        if (error) {
+          reject(new Error(stderr || error.message));
+          return;
+        }
+
+        try {
+          const definitions = JSON.parse(stdout);
+          resolve(definitions);
+        } catch (parseError) {
+          reject(new Error('Failed to parse function definitions: ' + parseError.message));
+        }
+      });
+    });
+  } catch (error) {
+    console.error('Error getting function definitions:', error);
+    throw error;
+  }
+});
+
 // Handle quitting the app
 ipcMain.handle('quit-app', async () => {
   if (!isCleaningUp) {
