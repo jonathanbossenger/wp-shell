@@ -49,7 +49,7 @@ const MonacoEditor = ({ value, onChange, onKeyDown }) => {
           endColumn: position.column,
         });
 
-        const functionMatch = textUntilPosition.match(/([\w$]+)\s*\([^)]*$/);
+        const functionMatch = textUntilPosition.match(/(\$?\w+)\s*\([^)]*$/);
         if (!functionMatch) return null;
 
         const functionName = functionMatch[1];
