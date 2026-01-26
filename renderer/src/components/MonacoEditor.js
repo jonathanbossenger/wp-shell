@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Editor from '@monaco-editor/react';
 
 const MonacoEditor = ({ value, onChange, onKeyDown }) => {
@@ -49,7 +49,7 @@ const MonacoEditor = ({ value, onChange, onKeyDown }) => {
           endColumn: position.column,
         });
 
-        const functionMatch = textUntilPosition.match(/(\w+)\s*\([^)]*$/);
+        const functionMatch = textUntilPosition.match(/([\w$]+)\s*\([^)]*$/);
         if (!functionMatch) return null;
 
         const functionName = functionMatch[1];
@@ -354,7 +354,7 @@ const getWordPressHoverInfo = (word) => {
     update_option: '**update_option**(string $option, mixed $value, string|bool $autoload = null): bool\n\nUpdates the value of an option that was already added.',
     get_post_meta: '**get_post_meta**(int $post_id, string $key = \'\', bool $single = false): mixed\n\nRetrieves a post meta field for the given post ID.',
     update_post_meta: '**update_post_meta**(int $post_id, string $meta_key, mixed $meta_value, mixed $prev_value = \'\'): int|bool\n\nUpdates a post meta field based on the given post ID.',
-    wpdb: '**$wpdb**: wpdb\n\nWordPress database object for running custom queries.',
+    '$wpdb': '**$wpdb**: wpdb\n\nWordPress database object for running custom queries.',
     get_users: '**get_users**(array $args = array()): array\n\nRetrieves list of users matching criteria.',
     get_terms: '**get_terms**(array|string $args = array()): array|WP_Error\n\nRetrieves the terms in a given taxonomy or list of taxonomies.',
   };
