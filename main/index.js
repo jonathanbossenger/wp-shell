@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog, Tray, nativeImage, Menu } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { execSync, exec } = require('child_process');
+const { exec } = require('child_process');
 
 let mainWindow = null;
 let tray = null;
@@ -135,7 +135,7 @@ const createWindow = () => {
     height: 850,
     title: 'WP Shell',
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, '..', 'preload.js'),
     },
@@ -175,7 +175,7 @@ const createMenu = () => {
               maximizable: false,
               fullscreenable: false,
               webPreferences: {
-                nodeIntegration: true,
+                nodeIntegration: false,
                 contextIsolation: true,
                 preload: path.join(__dirname, '..', 'preload.js'),
               }
