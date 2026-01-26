@@ -51,10 +51,13 @@ const executeWordPressCode = async (wpDirectory, code) => {
     // Create a temporary PHP file
     const tempFile = path.join(wpDirectory, 'wp-shell-temp.php');
     
+    // Normalize path for PHP (use forward slashes even on Windows)
+    const wpLoadPath = path.join(wpDirectory, 'wp-load.php').replace(/\\/g, '/');
+    
     // Wrap the code to load WordPress and capture output
     const wrappedCode = `<?php
 define('WP_USE_THEMES', false);
-require_once('${wpDirectory}/wp-load.php');
+require_once('${wpLoadPath}');
 
 // Start output buffering
 ob_start();
@@ -81,6 +84,7 @@ echo $output;
       exec(`php ${tempFile}`, {
         cwd: wpDirectory,
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
+        timeout: 30000, // 30 second timeout
       }, async (error, stdout, stderr) => {
         // Clean up temp file
         try {
