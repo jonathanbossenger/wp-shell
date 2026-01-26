@@ -104,12 +104,6 @@ const MonacoEditor = ({ value, onChange, onKeyDown, functionDefinitions, isLoadi
         }
       }
     );
-
-    // If definitions are already loaded, register providers
-    if (functionDefinitions) {
-      // Trigger the useEffect by setting a temp state
-      // This will be handled by the useEffect above
-    }
   };
 
   return (

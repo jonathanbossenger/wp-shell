@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog, Tray, nativeImage, Menu } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { exec } = require('child_process');
+const { exec, execFile } = require('child_process');
 
 let mainWindow = null;
 let tray = null;
@@ -276,7 +276,8 @@ ipcMain.handle('get-function-definitions', async (event, wpDirectory) => {
     // Create a PHP script to extract function definitions
     const tempFile = path.join(wpDirectory, 'wp-shell-definitions.php');
     
-    const wpLoadPath = path.join(wpDirectory, 'wp-load.php').replace(/\\/g, '/');
+    // Normalize path for PHP (always use forward slashes)
+    const wpLoadPath = path.join(wpDirectory, 'wp-load.php').split(path.sep).join('/');
     
     const definitionsScript = `<?php
 define('WP_USE_THEMES', false);
@@ -339,10 +340,12 @@ foreach ($userFunctions as $functionName) {
 }
 
 // Get common PHP functions with their signatures
+// Pattern to match commonly used PHP function prefixes
+\$phpFunctionPattern = '/^(str|array|file|is_|print|echo|var_|json_|serialize|unserialize|count|empty|isset|in_array|explode|implode|trim|sprintf|date|time|preg_)/';
+
 foreach ($allFunctions['internal'] as $functionName) {
   // Only include commonly used PHP functions to avoid overwhelming the editor
-  // We'll include all string, array, file, and common utility functions
-  if (preg_match('/^(str|array|file|is_|print|echo|var_|json_|serialize|unserialize|count|empty|isset|in_array|explode|implode|trim|sprintf|date|time|preg_)/', $functionName)) {
+  if (preg_match(\$phpFunctionPattern, $functionName)) {
     try {
       $reflection = new ReflectionFunction($functionName);
       $params = [];
@@ -376,7 +379,7 @@ echo json_encode([
     await fs.promises.writeFile(tempFile, definitionsScript);
 
     return new Promise((resolve, reject) => {
-      exec(\`php \${tempFile}\`, {
+      execFile('php', [tempFile], {
         cwd: wpDirectory,
         maxBuffer: 50 * 1024 * 1024, // 50MB buffer for large function lists
         timeout: 60000, // 60 second timeout
