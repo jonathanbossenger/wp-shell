@@ -169,7 +169,7 @@ function App() {
                       {output || <span className="text-gray-400 italic">No output yet. Execute some code to see results here.</span>}
                     </div>
                   </div>
-                  <div className="flex gap-3 flex-none mt-4">
+                  <div className="flex gap-3 flex-none mt-4 justify-end">
                     <button
                       onClick={handleQuit}
                       className="bg-red-500 hover:bg-red-600 text-white px-4 py-2.5 rounded-lg transition-colors duration-200 shadow-sm"
