@@ -1,4 +1,5 @@
 const path = require('path');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -32,8 +33,27 @@ module.exports = {
           'postcss-loader',
         ],
       },
+      {
+        test: /\.ttf$/,
+        type: 'asset/resource',
+      },
     ],
   },
+  plugins: [
+    new MonacoWebpackPlugin({
+      languages: ['php', 'javascript', 'html', 'css', 'json'],
+      features: [
+        'coreCommands',
+        'find',
+        'suggest',
+        'hover',
+        'parameterHints',
+        'contextmenu',
+        'quickCommand',
+        'snippet',
+      ],
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },

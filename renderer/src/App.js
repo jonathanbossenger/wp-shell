@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import RecentDirectories from './components/RecentDirectories';
+import MonacoEditor from './components/MonacoEditor';
 
 function App() {
   const [selectedDirectory, setSelectedDirectory] = useState(null);
@@ -8,7 +9,6 @@ function App() {
   const [output, setOutput] = useState('');
   const [isExecuting, setIsExecuting] = useState(false);
   const [error, setError] = useState(null);
-  const textareaRef = useRef(null);
 
   const handleSelectDirectory = async () => {
     setIsSelecting(true);
@@ -73,20 +73,6 @@ function App() {
   };
 
   const handleKeyDown = (e) => {
-    // Handle Tab key for indentation
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      const start = e.target.selectionStart;
-      const end = e.target.selectionEnd;
-      const newCode = code.substring(0, start) + '    ' + code.substring(end);
-      setCode(newCode);
-      
-      // Set cursor position after the tab
-      setTimeout(() => {
-        textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + 4;
-      }, 0);
-    }
-    
     // Handle Ctrl/Cmd + Enter for execution
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
@@ -135,13 +121,10 @@ function App() {
                     <span className="text-xs text-gray-500">Ctrl/Cmd + Enter to execute</span>
                   </div>
                   <div className="code-editor flex-1 min-h-0">
-                    <textarea
-                      ref={textareaRef}
+                    <MonacoEditor
                       value={code}
-                      onChange={(e) => setCode(e.target.value)}
+                      onChange={setCode}
                       onKeyDown={handleKeyDown}
-                      placeholder="Enter your WordPress PHP code here..."
-                      className="h-full"
                     />
                   </div>
                   <div className="flex gap-3 flex-none mt-4">
