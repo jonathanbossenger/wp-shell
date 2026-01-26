@@ -128,11 +128,24 @@ const MonacoEditor = ({ value, onChange, onKeyDown, functionDefinitions, isLoadi
         quickSuggestions: true,
         suggestOnTriggerCharacters: true,
         acceptSuggestionOnEnter: 'on',
+        padding: {
+          top: 60,
+          bottom: 16,
+        },
         parameterHints: {
           enabled: true,
+          cycle: false,
         },
         hover: {
           enabled: true,
+          above: false,
+          delay: 300,
+        },
+        suggest: {
+          showIcons: true,
+          showStatusBar: true,
+          preview: true,
+          previewMode: 'subwordSmart',
         },
       }}
     />
