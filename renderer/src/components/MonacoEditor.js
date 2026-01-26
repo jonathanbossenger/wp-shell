@@ -9,14 +9,6 @@ const MonacoEditor = ({ value, onChange, onKeyDown }) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
 
-    // Configure PHP language settings
-    monaco.languages.php.phpDefaults.setOptions({
-      suggest: {
-        showKeywords: true,
-        showSnippets: true,
-      },
-    });
-
     // Register WordPress function definitions for IntelliSense
     monaco.languages.registerCompletionItemProvider('php', {
       provideCompletionItems: (model, position) => {
