@@ -127,7 +127,8 @@ function App() {
                 </div>
               </div>
               
-              <div className="flex-1 flex flex-col mt-6 min-h-0 gap-4">
+              <div className="flex-1 flex gap-6 mt-6 min-h-0">
+                {/* Left Side - Code Editor */}
                 <div className="flex-1 flex flex-col min-h-0">
                   <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-semibold text-gray-800">Code Editor</h2>
@@ -143,36 +144,38 @@ function App() {
                       className="h-full"
                     />
                   </div>
+                  <div className="flex gap-3 flex-none mt-4">
+                    <button
+                      onClick={handleExecuteCode}
+                      disabled={isExecuting || !code.trim()}
+                      className="bg-green-500 hover:bg-green-600 text-white px-6 py-2.5 rounded-lg disabled:opacity-50 transition-colors duration-200 shadow-sm font-medium"
+                    >
+                      {isExecuting ? 'Executing...' : 'Execute Code'}
+                    </button>
+                    <button
+                      onClick={handleClearOutput}
+                      className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2.5 rounded-lg transition-colors duration-200 shadow-sm"
+                    >
+                      Clear Output
+                    </button>
+                  </div>
                 </div>
                 
-                <div className="flex gap-3 flex-none">
-                  <button
-                    onClick={handleExecuteCode}
-                    disabled={isExecuting || !code.trim()}
-                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-2.5 rounded-lg disabled:opacity-50 transition-colors duration-200 shadow-sm font-medium"
-                  >
-                    {isExecuting ? 'Executing...' : 'Execute Code'}
-                  </button>
-                  <button
-                    onClick={handleClearOutput}
-                    className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2.5 rounded-lg transition-colors duration-200 shadow-sm"
-                  >
-                    Clear Output
-                  </button>
-                  <button
-                    onClick={handleQuit}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2.5 rounded-lg transition-colors duration-200 shadow-sm ml-auto"
-                  >
-                    Quit
-                  </button>
-                </div>
-                
+                {/* Right Side - Output */}
                 <div className="flex-1 flex flex-col min-h-0">
                   <h2 className="text-xl font-semibold text-gray-800 mb-3">Output</h2>
                   <div className="output-area flex-1">
                     <div className="output-content">
                       {output || <span className="text-gray-400 italic">No output yet. Execute some code to see results here.</span>}
                     </div>
+                  </div>
+                  <div className="flex gap-3 flex-none mt-4">
+                    <button
+                      onClick={handleQuit}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2.5 rounded-lg transition-colors duration-200 shadow-sm"
+                    >
+                      Quit
+                    </button>
                   </div>
                 </div>
               </div>

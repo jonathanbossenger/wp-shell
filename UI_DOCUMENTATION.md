@@ -20,7 +20,10 @@ Once a WordPress directory is selected, the interface changes to:
 - **WordPress Directory Display**: Shows the selected directory path in a monospace font
 - **Change Directory Button**: Allows switching to a different WordPress installation
 
-#### Middle Section - Code Editor
+#### Main Section - Side-by-Side Layout
+The interface uses a side-by-side layout with two columns:
+
+**Left Side - Code Editor:**
 - **Code Editor**: A dark-themed text area (background: #1e1e1e, text: #d4d4d4)
   - Syntax highlighting with monospace font
   - Tab key support for indentation
@@ -34,18 +37,18 @@ Once a WordPress directory is selected, the interface changes to:
     //     echo $post->post_title . "\n";
     // }
     ```
+- **Action Buttons** (below Code Editor):
+  - **Execute Code** (Green): Runs the PHP code in the WordPress context
+  - **Clear Output** (Gray): Clears the output panel
 
-#### Action Buttons
-- **Execute Code** (Green): Runs the PHP code in the WordPress context
-- **Clear Output** (Gray): Clears the output panel
-- **Quit** (Red): Closes the application
-
-#### Bottom Section - Output Panel
+**Right Side - Output:**
 - **Output Display**: A light-themed panel (background: #f8f9fa)
   - Monospace font for code output
   - Scrollable area for long outputs
   - Shows execution results or error messages
   - Placeholder text when empty: "No output yet. Execute some code to see results here."
+- **Action Button** (below Output):
+  - **Quit** (Red): Closes the application
 
 ## Color Scheme
 - **Primary Color**: Blue (#3b82f6) for action buttons
