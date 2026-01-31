@@ -21,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.os.image }}
 
     steps:
-      - name: Github checkout
+      - name: GitHub checkout
         uses: actions/checkout@v4
 
       - name: Use Node.js
@@ -35,16 +35,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           APPLE_ARCH: ${{ matrix.os.arch }}
-        run: npm run publish 
+        run: npm run publish
 
       - name: Update GitHub Release notes for macOS quarantine
         if: runner.os == 'Linux'
         uses: IsaacShelton/update-existing-release@v1.3.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          # If you know the tag, specify it below:
-          tag: ${{ github.ref_name }} # or use the actual release tag
-          # Optionally, set release: ${{ github.event.release.name }}
+          tag: ${{ github.ref_name }}
           body: |
             ## macOS quarantine:
             This app is not signed, so you might get a warning when you try to open it. 
