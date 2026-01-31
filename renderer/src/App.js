@@ -5,7 +5,7 @@ import CodeEditor from './components/CodeEditor';
 function App() {
   const [selectedDirectory, setSelectedDirectory] = useState(null);
   const [isSelecting, setIsSelecting] = useState(false);
-  const [code, setCode] = useState('// Enter your WordPress PHP code here\n// Example:\n// $posts = get_posts(array(\'numberposts\' => 5));\n// foreach ($posts as $post) {\n//     echo $post->post_title . "\\n";\n// }\n');
+  const [code, setCode] = useState('// Enter your WordPress PHP code here\n');
   const [output, setOutput] = useState('');
   const [isExecuting, setIsExecuting] = useState(false);
   const [error, setError] = useState(null);
