@@ -1,0 +1,997 @@
+{
+  "version": "8.2.0",
+  "functions": [
+    {
+      "label": "abs",
+      "kind": "Function",
+      "documentation": "Returns the absolute value of a number",
+      "insertText": "abs(${1:number})",
+      "detail": "int|float abs(int|float $number)",
+      "source": "core"
+    },
+    {
+      "label": "array_chunk",
+      "kind": "Function",
+      "documentation": "Splits an array into chunks",
+      "insertText": "array_chunk(${1:array}, ${2:length})",
+      "detail": "array array_chunk(array $array, int $length, bool $preserve_keys = false)",
+      "source": "core"
+    },
+    {
+      "label": "array_column",
+      "kind": "Function",
+      "documentation": "Returns the values from a single column in the input array",
+      "insertText": "array_column(${1:array}, ${2:column_key})",
+      "detail": "array array_column(array $array, int|string|null $column_key, int|string|null $index_key = null)",
+      "source": "core"
+    },
+    {
+      "label": "array_combine",
+      "kind": "Function",
+      "documentation": "Creates an array by using one array for keys and another for its values",
+      "insertText": "array_combine(${1:keys}, ${2:values})",
+      "detail": "array array_combine(array $keys, array $values)",
+      "source": "core"
+    },
+    {
+      "label": "array_diff",
+      "kind": "Function",
+      "documentation": "Computes the difference of arrays",
+      "insertText": "array_diff(${1:array}, ${2:arrays})",
+      "detail": "array array_diff(array $array, array ...$arrays)",
+      "source": "core"
+    },
+    {
+      "label": "array_filter",
+      "kind": "Function",
+      "documentation": "Filters elements of an array using a callback function",
+      "insertText": "array_filter(${1:array})",
+      "detail": "array array_filter(array $array, ?callable $callback = null, int $mode = 0)",
+      "source": "core"
+    },
+    {
+      "label": "array_flip",
+      "kind": "Function",
+      "documentation": "Exchanges all keys with their associated values in an array",
+      "insertText": "array_flip(${1:array})",
+      "detail": "array array_flip(array $array)",
+      "source": "core"
+    },
+    {
+      "label": "array_is_list",
+      "kind": "Function",
+      "documentation": "Checks whether a given array is a list",
+      "insertText": "array_is_list(${1:array})",
+      "detail": "bool array_is_list(array $array)",
+      "source": "core"
+    },
+    {
+      "label": "array_keys",
+      "kind": "Function",
+      "documentation": "Returns all the keys or a subset of the keys of an array",
+      "insertText": "array_keys(${1:array})",
+      "detail": "array array_keys(array $array, mixed $search_value = null, bool $strict = false)",
+      "source": "core"
+    },
+    {
+      "label": "array_map",
+      "kind": "Function",
+      "documentation": "Applies a callback function to the elements of arrays",
+      "insertText": "array_map(${1:callback}, ${2:array})",
+      "detail": "array array_map(?callable $callback, array $array, array ...$arrays)",
+      "source": "core"
+    },
+    {
+      "label": "array_merge",
+      "kind": "Function",
+      "documentation": "Merges one or more arrays",
+      "insertText": "array_merge(${1:arrays})",
+      "detail": "array array_merge(array ...$arrays)",
+      "source": "core"
+    },
+    {
+      "label": "array_pop",
+      "kind": "Function",
+      "documentation": "Pops the element off the end of array",
+      "insertText": "array_pop(${1:array})",
+      "detail": "mixed array_pop(array &$array)",
+      "source": "core"
+    },
+    {
+      "label": "array_push",
+      "kind": "Function",
+      "documentation": "Pushes one or more elements onto the end of array",
+      "insertText": "array_push(${1:array}, ${2:values})",
+      "detail": "int array_push(array &$array, mixed ...$values)",
+      "source": "core"
+    },
+    {
+      "label": "array_reduce",
+      "kind": "Function",
+      "documentation": "Iteratively reduces the array to a single value using a callback function",
+      "insertText": "array_reduce(${1:array}, ${2:callback})",
+      "detail": "mixed array_reduce(array $array, callable $callback, mixed $initial = null)",
+      "source": "core"
+    },
+    {
+      "label": "array_reverse",
+      "kind": "Function",
+      "documentation": "Returns an array with elements in reverse order",
+      "insertText": "array_reverse(${1:array})",
+      "detail": "array array_reverse(array $array, bool $preserve_keys = false)",
+      "source": "core"
+    },
+    {
+      "label": "array_search",
+      "kind": "Function",
+      "documentation": "Searches the array for a given value and returns the first corresponding key if successful",
+      "insertText": "array_search(${1:needle}, ${2:haystack})",
+      "detail": "int|string|false array_search(mixed $needle, array $haystack, bool $strict = false)",
+      "source": "core"
+    },
+    {
+      "label": "array_slice",
+      "kind": "Function",
+      "documentation": "Extracts a slice of the array",
+      "insertText": "array_slice(${1:array}, ${2:offset})",
+      "detail": "array array_slice(array $array, int $offset, ?int $length = null, bool $preserve_keys = false)",
+      "source": "core"
+    },
+    {
+      "label": "array_unique",
+      "kind": "Function",
+      "documentation": "Removes duplicate values from an array",
+      "insertText": "array_unique(${1:array})",
+      "detail": "array array_unique(array $array, int $flags = SORT_STRING)",
+      "source": "core"
+    },
+    {
+      "label": "array_values",
+      "kind": "Function",
+      "documentation": "Returns all the values of an array",
+      "insertText": "array_values(${1:array})",
+      "detail": "array array_values(array $array)",
+      "source": "core"
+    },
+    {
+      "label": "asort",
+      "kind": "Function",
+      "documentation": "Sorts an array in ascending order and maintains index association",
+      "insertText": "asort(${1:array})",
+      "detail": "bool asort(array &$array, int $flags = SORT_REGULAR)",
+      "source": "core"
+    },
+    {
+      "label": "base64_decode",
+      "kind": "Function",
+      "documentation": "Decodes data encoded with MIME base64",
+      "insertText": "base64_decode(${1:string})",
+      "detail": "string|false base64_decode(string $string, bool $strict = false)",
+      "source": "core"
+    },
+    {
+      "label": "base64_encode",
+      "kind": "Function",
+      "documentation": "Encodes data with MIME base64",
+      "insertText": "base64_encode(${1:string})",
+      "detail": "string base64_encode(string $string)",
+      "source": "core"
+    },
+    {
+      "label": "basename",
+      "kind": "Function",
+      "documentation": "Returns trailing name component of path",
+      "insertText": "basename(${1:path})",
+      "detail": "string basename(string $path, string $suffix = '')",
+      "source": "core"
+    },
+    {
+      "label": "ceil",
+      "kind": "Function",
+      "documentation": "Rounds a number up to the next highest integer",
+      "insertText": "ceil(${1:num})",
+      "detail": "float ceil(int|float $num)",
+      "source": "core"
+    },
+    {
+      "label": "class_exists",
+      "kind": "Function",
+      "documentation": "Checks if the class has been defined",
+      "insertText": "class_exists(${1:class})",
+      "detail": "bool class_exists(string $class, bool $autoload = true)",
+      "source": "core"
+    },
+    {
+      "label": "compact",
+      "kind": "Function",
+      "documentation": "Creates array containing variables and their values",
+      "insertText": "compact(${1:var_name})",
+      "detail": "array compact(array|string $var_name, array|string ...$var_names)",
+      "source": "core"
+    },
+    {
+      "label": "count",
+      "kind": "Function",
+      "documentation": "Counts all elements in an array or countable object",
+      "insertText": "count(${1:value})",
+      "detail": "int count(Countable|array $value, int $mode = COUNT_NORMAL)",
+      "source": "core"
+    },
+    {
+      "label": "curl_close",
+      "kind": "Function",
+      "documentation": "Closes a cURL session",
+      "insertText": "curl_close(${1:handle})",
+      "detail": "void curl_close(CurlHandle $handle)",
+      "source": "curl"
+    },
+    {
+      "label": "curl_exec",
+      "kind": "Function",
+      "documentation": "Performs a cURL session",
+      "insertText": "curl_exec(${1:handle})",
+      "detail": "string|bool curl_exec(CurlHandle $handle)",
+      "source": "curl"
+    },
+    {
+      "label": "curl_init",
+      "kind": "Function",
+      "documentation": "Initializes a cURL session",
+      "insertText": "curl_init(${1:url})",
+      "detail": "CurlHandle|false curl_init(?string $url = null)",
+      "source": "curl"
+    },
+    {
+      "label": "curl_setopt",
+      "kind": "Function",
+      "documentation": "Sets an option for a cURL transfer",
+      "insertText": "curl_setopt(${1:handle}, ${2:option}, ${3:value})",
+      "detail": "bool curl_setopt(CurlHandle $handle, int $option, mixed $value)",
+      "source": "curl"
+    },
+    {
+      "label": "date",
+      "kind": "Function",
+      "documentation": "Formats a Unix timestamp",
+      "insertText": "date(${1:format})",
+      "detail": "string date(string $format, ?int $timestamp = null)",
+      "source": "core"
+    },
+    {
+      "label": "defined",
+      "kind": "Function",
+      "documentation": "Checks whether a given named constant exists",
+      "insertText": "defined(${1:constant_name})",
+      "detail": "bool defined(string $constant_name)",
+      "source": "core"
+    },
+    {
+      "label": "dirname",
+      "kind": "Function",
+      "documentation": "Returns a parent directory's path",
+      "insertText": "dirname(${1:path})",
+      "detail": "string dirname(string $path, int $levels = 1)",
+      "source": "core"
+    },
+    {
+      "label": "empty",
+      "kind": "Function",
+      "documentation": "Determines whether a variable is empty",
+      "insertText": "empty(${1:var})",
+      "detail": "bool empty(mixed $var)",
+      "source": "core"
+    },
+    {
+      "label": "enum_exists",
+      "kind": "Function",
+      "documentation": "Checks if the enum has been defined",
+      "insertText": "enum_exists(${1:enum})",
+      "detail": "bool enum_exists(string $enum, bool $autoload = true)",
+      "source": "core"
+    },
+    {
+      "label": "explode",
+      "kind": "Function",
+      "documentation": "Splits a string by a string delimiter",
+      "insertText": "explode(${1:separator}, ${2:string})",
+      "detail": "array explode(string $separator, string $string, int $limit = PHP_INT_MAX)",
+      "source": "core"
+    },
+    {
+      "label": "fclose",
+      "kind": "Function",
+      "documentation": "Closes an open file pointer",
+      "insertText": "fclose(${1:stream})",
+      "detail": "bool fclose(resource $stream)",
+      "source": "core"
+    },
+    {
+      "label": "fdatasync",
+      "kind": "Function",
+      "documentation": "Synchronizes data (but not meta-data) to the file",
+      "insertText": "fdatasync(${1:stream})",
+      "detail": "bool fdatasync(resource $stream)",
+      "source": "core"
+    },
+    {
+      "label": "fdiv",
+      "kind": "Function",
+      "documentation": "Divides two numbers according to IEEE 754",
+      "insertText": "fdiv(${1:num1}, ${2:num2})",
+      "detail": "float fdiv(float $num1, float $num2)",
+      "source": "core"
+    },
+    {
+      "label": "file_exists",
+      "kind": "Function",
+      "documentation": "Checks whether a file or directory exists",
+      "insertText": "file_exists(${1:filename})",
+      "detail": "bool file_exists(string $filename)",
+      "source": "core"
+    },
+    {
+      "label": "file_get_contents",
+      "kind": "Function",
+      "documentation": "Reads entire file into a string",
+      "insertText": "file_get_contents(${1:filename})",
+      "detail": "string|false file_get_contents(string $filename, bool $use_include_path = false, ?resource $context = null, int $offset = 0, ?int $length = null)",
+      "source": "core"
+    },
+    {
+      "label": "file_put_contents",
+      "kind": "Function",
+      "documentation": "Writes data to a file",
+      "insertText": "file_put_contents(${1:filename}, ${2:data})",
+      "detail": "int|false file_put_contents(string $filename, mixed $data, int $flags = 0, ?resource $context = null)",
+      "source": "core"
+    },
+    {
+      "label": "filter_var",
+      "kind": "Function",
+      "documentation": "Filters a variable with a specified filter",
+      "insertText": "filter_var(${1:value}, ${2:filter})",
+      "detail": "mixed filter_var(mixed $value, int $filter = FILTER_DEFAULT, array|int $options = 0)",
+      "source": "filter"
+    },
+    {
+      "label": "floor",
+      "kind": "Function",
+      "documentation": "Rounds a number down to the next lowest integer",
+      "insertText": "floor(${1:num})",
+      "detail": "float floor(int|float $num)",
+      "source": "core"
+    },
+    {
+      "label": "fopen",
+      "kind": "Function",
+      "documentation": "Opens file or URL",
+      "insertText": "fopen(${1:filename}, ${2:mode})",
+      "detail": "resource|false fopen(string $filename, string $mode, bool $use_include_path = false, ?resource $context = null)",
+      "source": "core"
+    },
+    {
+      "label": "fsync",
+      "kind": "Function",
+      "documentation": "Synchronizes changes to the file (including meta-data)",
+      "insertText": "fsync(${1:stream})",
+      "detail": "bool fsync(resource $stream)",
+      "source": "core"
+    },
+    {
+      "label": "fwrite",
+      "kind": "Function",
+      "documentation": "Binary-safe file write",
+      "insertText": "fwrite(${1:stream}, ${2:data})",
+      "detail": "int|false fwrite(resource $stream, string $data, ?int $length = null)",
+      "source": "core"
+    },
+    {
+      "label": "get_class",
+      "kind": "Function",
+      "documentation": "Returns the name of the class of an object",
+      "insertText": "get_class(${1:object})",
+      "detail": "string get_class(object $object = ?)",
+      "source": "core"
+    },
+    {
+      "label": "get_debug_type",
+      "kind": "Function",
+      "documentation": "Gets the type name of a variable in a way that is suitable for debugging",
+      "insertText": "get_debug_type(${1:value})",
+      "detail": "string get_debug_type(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "getcwd",
+      "kind": "Function",
+      "documentation": "Gets the current working directory",
+      "insertText": "getcwd()",
+      "detail": "string|false getcwd()",
+      "source": "core"
+    },
+    {
+      "label": "gettype",
+      "kind": "Function",
+      "documentation": "Gets the type of a variable",
+      "insertText": "gettype(${1:value})",
+      "detail": "string gettype(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "glob",
+      "kind": "Function",
+      "documentation": "Finds pathnames matching a pattern",
+      "insertText": "glob(${1:pattern})",
+      "detail": "array|false glob(string $pattern, int $flags = 0)",
+      "source": "core"
+    },
+    {
+      "label": "hash",
+      "kind": "Function",
+      "documentation": "Generates a hash value (message digest)",
+      "insertText": "hash(${1:algo}, ${2:data})",
+      "detail": "string hash(string $algo, string $data, bool $binary = false)",
+      "source": "hash"
+    },
+    {
+      "label": "header",
+      "kind": "Function",
+      "documentation": "Sends a raw HTTP header",
+      "insertText": "header(${1:header})",
+      "detail": "void header(string $header, bool $replace = true, int $response_code = 0)",
+      "source": "core"
+    },
+    {
+      "label": "htmlspecialchars",
+      "kind": "Function",
+      "documentation": "Converts special characters to HTML entities",
+      "insertText": "htmlspecialchars(${1:string})",
+      "detail": "string htmlspecialchars(string $string, int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, ?string $encoding = null, bool $double_encode = true)",
+      "source": "core"
+    },
+    {
+      "label": "implode",
+      "kind": "Function",
+      "documentation": "Joins array elements with a string",
+      "insertText": "implode(${1:separator}, ${2:array})",
+      "detail": "string implode(string $separator, array $array)",
+      "source": "core"
+    },
+    {
+      "label": "in_array",
+      "kind": "Function",
+      "documentation": "Checks if a value exists in an array",
+      "insertText": "in_array(${1:needle}, ${2:haystack})",
+      "detail": "bool in_array(mixed $needle, array $haystack, bool $strict = false)",
+      "source": "core"
+    },
+    {
+      "label": "ini_get",
+      "kind": "Function",
+      "documentation": "Gets the value of a configuration option",
+      "insertText": "ini_get(${1:option})",
+      "detail": "string|false ini_get(string $option)",
+      "source": "core"
+    },
+    {
+      "label": "ini_parse_quantity",
+      "kind": "Function",
+      "documentation": "Gets the interpreted size from an ini shorthand notation (new in PHP 8.2)",
+      "insertText": "ini_parse_quantity(${1:shorthand})",
+      "detail": "int ini_parse_quantity(string $shorthand)",
+      "source": "core"
+    },
+    {
+      "label": "ini_set",
+      "kind": "Function",
+      "documentation": "Sets the value of a configuration option",
+      "insertText": "ini_set(${1:option}, ${2:value})",
+      "detail": "string|false ini_set(string $option, string|int|float|bool|null $value)",
+      "source": "core"
+    },
+    {
+      "label": "intval",
+      "kind": "Function",
+      "documentation": "Gets the integer value of a variable",
+      "insertText": "intval(${1:value})",
+      "detail": "int intval(mixed $value, int $base = 10)",
+      "source": "core"
+    },
+    {
+      "label": "is_array",
+      "kind": "Function",
+      "documentation": "Finds whether a variable is an array",
+      "insertText": "is_array(${1:value})",
+      "detail": "bool is_array(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "is_bool",
+      "kind": "Function",
+      "documentation": "Finds out whether a variable is a boolean",
+      "insertText": "is_bool(${1:value})",
+      "detail": "bool is_bool(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "is_dir",
+      "kind": "Function",
+      "documentation": "Tells whether the filename is a directory",
+      "insertText": "is_dir(${1:filename})",
+      "detail": "bool is_dir(string $filename)",
+      "source": "core"
+    },
+    {
+      "label": "is_file",
+      "kind": "Function",
+      "documentation": "Tells whether the filename is a regular file",
+      "insertText": "is_file(${1:filename})",
+      "detail": "bool is_file(string $filename)",
+      "source": "core"
+    },
+    {
+      "label": "is_float",
+      "kind": "Function",
+      "documentation": "Finds whether the type of a variable is float",
+      "insertText": "is_float(${1:value})",
+      "detail": "bool is_float(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "is_int",
+      "kind": "Function",
+      "documentation": "Finds whether the type of a variable is integer",
+      "insertText": "is_int(${1:value})",
+      "detail": "bool is_int(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "is_null",
+      "kind": "Function",
+      "documentation": "Finds whether a variable is null",
+      "insertText": "is_null(${1:value})",
+      "detail": "bool is_null(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "is_numeric",
+      "kind": "Function",
+      "documentation": "Finds whether a variable is a number or a numeric string",
+      "insertText": "is_numeric(${1:value})",
+      "detail": "bool is_numeric(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "is_string",
+      "kind": "Function",
+      "documentation": "Finds whether the type of a variable is string",
+      "insertText": "is_string(${1:value})",
+      "detail": "bool is_string(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "isset",
+      "kind": "Function",
+      "documentation": "Determines if a variable is declared and is different than null",
+      "insertText": "isset(${1:var})",
+      "detail": "bool isset(mixed $var, mixed ...$vars)",
+      "source": "core"
+    },
+    {
+      "label": "json_decode",
+      "kind": "Function",
+      "documentation": "Decodes a JSON string",
+      "insertText": "json_decode(${1:json})",
+      "detail": "mixed json_decode(string $json, ?bool $associative = null, int $depth = 512, int $flags = 0)",
+      "source": "json"
+    },
+    {
+      "label": "json_encode",
+      "kind": "Function",
+      "documentation": "Returns the JSON representation of a value",
+      "insertText": "json_encode(${1:value})",
+      "detail": "string|false json_encode(mixed $value, int $flags = 0, int $depth = 512)",
+      "source": "json"
+    },
+    {
+      "label": "ksort",
+      "kind": "Function",
+      "documentation": "Sorts an array by key in ascending order",
+      "insertText": "ksort(${1:array})",
+      "detail": "bool ksort(array &$array, int $flags = SORT_REGULAR)",
+      "source": "core"
+    },
+    {
+      "label": "ltrim",
+      "kind": "Function",
+      "documentation": "Strips whitespace (or other characters) from the beginning of a string",
+      "insertText": "ltrim(${1:string})",
+      "detail": "string ltrim(string $string, string $characters = \" \\n\\r\\t\\v\\0\")",
+      "source": "core"
+    },
+    {
+      "label": "max",
+      "kind": "Function",
+      "documentation": "Finds highest value",
+      "insertText": "max(${1:value})",
+      "detail": "mixed max(mixed $value, mixed ...$values)",
+      "source": "core"
+    },
+    {
+      "label": "mb_strlen",
+      "kind": "Function",
+      "documentation": "Gets string length",
+      "insertText": "mb_strlen(${1:string})",
+      "detail": "int mb_strlen(string $string, ?string $encoding = null)",
+      "source": "mbstring"
+    },
+    {
+      "label": "md5",
+      "kind": "Function",
+      "documentation": "Calculates the md5 hash of a string",
+      "insertText": "md5(${1:string})",
+      "detail": "string md5(string $string, bool $binary = false)",
+      "source": "core"
+    },
+    {
+      "label": "memory_get_usage",
+      "kind": "Function",
+      "documentation": "Returns the amount of memory allocated to PHP",
+      "insertText": "memory_get_usage()",
+      "detail": "int memory_get_usage(bool $real_usage = false)",
+      "source": "core"
+    },
+    {
+      "label": "method_exists",
+      "kind": "Function",
+      "documentation": "Checks if the class method exists",
+      "insertText": "method_exists(${1:object_or_class}, ${2:method})",
+      "detail": "bool method_exists(object|string $object_or_class, string $method)",
+      "source": "core"
+    },
+    {
+      "label": "microtime",
+      "kind": "Function",
+      "documentation": "Returns the current Unix timestamp with microseconds",
+      "insertText": "microtime()",
+      "detail": "string|float microtime(bool $as_float = false)",
+      "source": "core"
+    },
+    {
+      "label": "min",
+      "kind": "Function",
+      "documentation": "Finds lowest value",
+      "insertText": "min(${1:value})",
+      "detail": "mixed min(mixed $value, mixed ...$values)",
+      "source": "core"
+    },
+    {
+      "label": "mkdir",
+      "kind": "Function",
+      "documentation": "Makes directory",
+      "insertText": "mkdir(${1:directory})",
+      "detail": "bool mkdir(string $directory, int $permissions = 0777, bool $recursive = false, ?resource $context = null)",
+      "source": "core"
+    },
+    {
+      "label": "mysqli_execute_query",
+      "kind": "Function",
+      "documentation": "Prepares, binds parameters, and executes SQL statement (new in PHP 8.2)",
+      "insertText": "mysqli_execute_query(${1:mysql}, ${2:query})",
+      "detail": "mysqli_result|bool mysqli_execute_query(mysqli $mysql, string $query, ?array $params = null)",
+      "source": "mysqli"
+    },
+    {
+      "label": "number_format",
+      "kind": "Function",
+      "documentation": "Formats a number with grouped thousands",
+      "insertText": "number_format(${1:num})",
+      "detail": "string number_format(float $num, int $decimals = 0, ?string $decimal_separator = '.', ?string $thousands_separator = ',')",
+      "source": "core"
+    },
+    {
+      "label": "openssl_cipher_key_length",
+      "kind": "Function",
+      "documentation": "Gets the cipher key length (new in PHP 8.2)",
+      "insertText": "openssl_cipher_key_length(${1:cipher_algo})",
+      "detail": "int|false openssl_cipher_key_length(string $cipher_algo)",
+      "source": "openssl"
+    },
+    {
+      "label": "parse_url",
+      "kind": "Function",
+      "documentation": "Parses a URL and returns its components",
+      "insertText": "parse_url(${1:url})",
+      "detail": "int|string|array|null|false parse_url(string $url, int $component = -1)",
+      "source": "core"
+    },
+    {
+      "label": "pathinfo",
+      "kind": "Function",
+      "documentation": "Returns information about a file path",
+      "insertText": "pathinfo(${1:path})",
+      "detail": "array|string pathinfo(string $path, int $flags = PATHINFO_ALL)",
+      "source": "core"
+    },
+    {
+      "label": "phpversion",
+      "kind": "Function",
+      "documentation": "Gets the current PHP version",
+      "insertText": "phpversion()",
+      "detail": "string|false phpversion(?string $extension = null)",
+      "source": "core"
+    },
+    {
+      "label": "preg_match",
+      "kind": "Function",
+      "documentation": "Performs a regular expression match",
+      "insertText": "preg_match(${1:pattern}, ${2:subject})",
+      "detail": "int|false preg_match(string $pattern, string $subject, array &$matches = null, int $flags = 0, int $offset = 0)",
+      "source": "pcre"
+    },
+    {
+      "label": "preg_replace",
+      "kind": "Function",
+      "documentation": "Performs a regular expression search and replace",
+      "insertText": "preg_replace(${1:pattern}, ${2:replacement}, ${3:subject})",
+      "detail": "string|array|null preg_replace(string|array $pattern, string|array $replacement, string|array $subject, int $limit = -1, int &$count = null)",
+      "source": "pcre"
+    },
+    {
+      "label": "print_r",
+      "kind": "Function",
+      "documentation": "Prints human-readable information about a variable",
+      "insertText": "print_r(${1:value})",
+      "detail": "string|bool print_r(mixed $value, bool $return = false)",
+      "source": "core"
+    },
+    {
+      "label": "rand",
+      "kind": "Function",
+      "documentation": "Generates a random integer",
+      "insertText": "rand()",
+      "detail": "int rand(int $min = 0, int $max = getrandmax())",
+      "source": "core"
+    },
+    {
+      "label": "range",
+      "kind": "Function",
+      "documentation": "Creates an array containing a range of elements",
+      "insertText": "range(${1:start}, ${2:end})",
+      "detail": "array range(string|int|float $start, string|int|float $end, int|float $step = 1)",
+      "source": "core"
+    },
+    {
+      "label": "round",
+      "kind": "Function",
+      "documentation": "Rounds a float",
+      "insertText": "round(${1:num})",
+      "detail": "float round(int|float $num, int $precision = 0, int $mode = PHP_ROUND_HALF_UP)",
+      "source": "core"
+    },
+    {
+      "label": "rtrim",
+      "kind": "Function",
+      "documentation": "Strips whitespace (or other characters) from the end of a string",
+      "insertText": "rtrim(${1:string})",
+      "detail": "string rtrim(string $string, string $characters = \" \\n\\r\\t\\v\\0\")",
+      "source": "core"
+    },
+    {
+      "label": "serialize",
+      "kind": "Function",
+      "documentation": "Generates a storable representation of a value",
+      "insertText": "serialize(${1:value})",
+      "detail": "string serialize(mixed $value)",
+      "source": "core"
+    },
+    {
+      "label": "session_start",
+      "kind": "Function",
+      "documentation": "Starts a new session or resumes an existing session",
+      "insertText": "session_start()",
+      "detail": "bool session_start(array $options = [])",
+      "source": "session"
+    },
+    {
+      "label": "sort",
+      "kind": "Function",
+      "documentation": "Sorts an array in ascending order",
+      "insertText": "sort(${1:array})",
+      "detail": "bool sort(array &$array, int $flags = SORT_REGULAR)",
+      "source": "core"
+    },
+    {
+      "label": "sprintf",
+      "kind": "Function",
+      "documentation": "Returns a formatted string",
+      "insertText": "sprintf(${1:format})",
+      "detail": "string sprintf(string $format, mixed ...$values)",
+      "source": "core"
+    },
+    {
+      "label": "str_contains",
+      "kind": "Function",
+      "documentation": "Determines if a string contains a given substring",
+      "insertText": "str_contains(${1:haystack}, ${2:needle})",
+      "detail": "bool str_contains(string $haystack, string $needle)",
+      "source": "core"
+    },
+    {
+      "label": "str_starts_with",
+      "kind": "Function",
+      "documentation": "Checks if a string starts with a given substring",
+      "insertText": "str_starts_with(${1:haystack}, ${2:needle})",
+      "detail": "bool str_starts_with(string $haystack, string $needle)",
+      "source": "core"
+    },
+    {
+      "label": "str_ends_with",
+      "kind": "Function",
+      "documentation": "Checks if a string ends with a given substring",
+      "insertText": "str_ends_with(${1:haystack}, ${2:needle})",
+      "detail": "bool str_ends_with(string $haystack, string $needle)",
+      "source": "core"
+    },
+    {
+      "label": "str_replace",
+      "kind": "Function",
+      "documentation": "Replaces all occurrences of the search string with the replacement string",
+      "insertText": "str_replace(${1:search}, ${2:replace}, ${3:subject})",
+      "detail": "string|array str_replace(array|string $search, array|string $replace, string|array $subject, int &$count = null)",
+      "source": "core"
+    },
+    {
+      "label": "str_split",
+      "kind": "Function",
+      "documentation": "Converts a string to an array",
+      "insertText": "str_split(${1:string})",
+      "detail": "array str_split(string $string, int $length = 1)",
+      "source": "core"
+    },
+    {
+      "label": "strcmp",
+      "kind": "Function",
+      "documentation": "Binary safe string comparison",
+      "insertText": "strcmp(${1:string1}, ${2:string2})",
+      "detail": "int strcmp(string $string1, string $string2)",
+      "source": "core"
+    },
+    {
+      "label": "strip_tags",
+      "kind": "Function",
+      "documentation": "Strips HTML and PHP tags from a string",
+      "insertText": "strip_tags(${1:string})",
+      "detail": "string strip_tags(string $string, array|string|null $allowed_tags = null)",
+      "source": "core"
+    },
+    {
+      "label": "strlen",
+      "kind": "Function",
+      "documentation": "Gets string length",
+      "insertText": "strlen(${1:string})",
+      "detail": "int strlen(string $string)",
+      "source": "core"
+    },
+    {
+      "label": "strpos",
+      "kind": "Function",
+      "documentation": "Finds the position of the first occurrence of a substring in a string",
+      "insertText": "strpos(${1:haystack}, ${2:needle})",
+      "detail": "int|false strpos(string $haystack, string $needle, int $offset = 0)",
+      "source": "core"
+    },
+    {
+      "label": "strtolower",
+      "kind": "Function",
+      "documentation": "Makes a string lowercase",
+      "insertText": "strtolower(${1:string})",
+      "detail": "string strtolower(string $string)",
+      "source": "core"
+    },
+    {
+      "label": "strtotime",
+      "kind": "Function",
+      "documentation": "Parses about any English textual datetime description into a Unix timestamp",
+      "insertText": "strtotime(${1:datetime})",
+      "detail": "int|false strtotime(string $datetime, ?int $baseTimestamp = null)",
+      "source": "core"
+    },
+    {
+      "label": "strtoupper",
+      "kind": "Function",
+      "documentation": "Makes a string uppercase",
+      "insertText": "strtoupper(${1:string})",
+      "detail": "string strtoupper(string $string)",
+      "source": "core"
+    },
+    {
+      "label": "substr",
+      "kind": "Function",
+      "documentation": "Returns part of a string",
+      "insertText": "substr(${1:string}, ${2:offset})",
+      "detail": "string substr(string $string, int $offset, ?int $length = null)",
+      "source": "core"
+    },
+    {
+      "label": "time",
+      "kind": "Function",
+      "documentation": "Returns current Unix timestamp",
+      "insertText": "time()",
+      "detail": "int time()",
+      "source": "core"
+    },
+    {
+      "label": "trim",
+      "kind": "Function",
+      "documentation": "Strips whitespace (or other characters) from the beginning and end of a string",
+      "insertText": "trim(${1:string})",
+      "detail": "string trim(string $string, string $characters = \" \\n\\r\\t\\v\\0\")",
+      "source": "core"
+    },
+    {
+      "label": "ucfirst",
+      "kind": "Function",
+      "documentation": "Makes a string's first character uppercase",
+      "insertText": "ucfirst(${1:string})",
+      "detail": "string ucfirst(string $string)",
+      "source": "core"
+    },
+    {
+      "label": "unlink",
+      "kind": "Function",
+      "documentation": "Deletes a file",
+      "insertText": "unlink(${1:filename})",
+      "detail": "bool unlink(string $filename, ?resource $context = null)",
+      "source": "core"
+    },
+    {
+      "label": "unserialize",
+      "kind": "Function",
+      "documentation": "Creates a PHP value from a stored representation",
+      "insertText": "unserialize(${1:data})",
+      "detail": "mixed unserialize(string $data, array $options = [])",
+      "source": "core"
+    },
+    {
+      "label": "unset",
+      "kind": "Function",
+      "documentation": "Unsets a given variable",
+      "insertText": "unset(${1:var})",
+      "detail": "void unset(mixed $var, mixed ...$vars)",
+      "source": "core"
+    },
+    {
+      "label": "urldecode",
+      "kind": "Function",
+      "documentation": "Decodes URL-encoded string",
+      "insertText": "urldecode(${1:string})",
+      "detail": "string urldecode(string $string)",
+      "source": "core"
+    },
+    {
+      "label": "urlencode",
+      "kind": "Function",
+      "documentation": "URL-encodes string",
+      "insertText": "urlencode(${1:string})",
+      "detail": "string urlencode(string $string)",
+      "source": "core"
+    },
+    {
+      "label": "var_dump",
+      "kind": "Function",
+      "documentation": "Dumps information about a variable",
+      "insertText": "var_dump(${1:value})",
+      "detail": "void var_dump(mixed $value, mixed ...$values)",
+      "source": "core"
+    },
+    {
+      "label": "var_export",
+      "kind": "Function",
+      "documentation": "Outputs or returns a parsable string representation of a variable",
+      "insertText": "var_export(${1:value})",
+      "detail": "string|null var_export(mixed $value, bool $return = false)",
+      "source": "core"
+    }
+  ]
+}

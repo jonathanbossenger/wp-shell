@@ -40,6 +40,7 @@
     "css-loader": "^7.1.2",
     "electron": "^34.0.1",
     "jimp": "^1.6.0",
+    "monaco-editor-webpack-plugin": "^7.1.0",
     "png2icons": "^2.0.1",
     "postcss-loader": "^8.1.1",
     "sharp": "^0.33.5",
@@ -48,10 +49,12 @@
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
     "@tailwindcss/forms": "^0.5.7",
     "autoprefixer": "^10.4.19",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^10.0.1",
+    "monaco-editor": "^0.52.0",
     "postcss": "^8.4.38",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

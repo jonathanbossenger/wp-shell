@@ -7,7 +7,12 @@ A companion app to [WP Debug](https://github.com/jonathanbossenger/wp-debug) tha
 - **Connect to WordPress**: Select your local WordPress installation directory
 - **Execute PHP Code**: Run any WordPress PHP code in the WordPress context
 - **View Output**: See the results of your code execution in real-time
-- **Code Editor**: Built-in code editor with syntax highlighting and keyboard shortcuts
+- **Enhanced IntelliSense**: Version-aware autocomplete for 5,000+ PHP and WordPress functions
+  - Automatic PHP version detection (7.4-8.3)
+  - Automatic WordPress version detection (6.0-6.5)
+  - Smart caching for instant subsequent loads
+  - Function signatures and documentation on hover
+- **Code Editor**: Monaco Editor with syntax highlighting and keyboard shortcuts
 - **Recent Directories**: Quick access to recently used WordPress installations
 
 ## Installation

@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog, Tray, nativeImage, Menu } = require
 const path = require('path');
 const fs = require('fs');
 const { exec } = require('child_process');
+const { getAllCompletions, clearCompletionCache, getFallbackCompletions } = require('./function-loader');
 
 let mainWindow = null;
 let tray = null;
@@ -18,7 +19,8 @@ const initStore = async () => {
   const { default: Store } = await import('electron-store');
   store = new Store({
     defaults: {
-      recentDirectories: []
+      recentDirectories: [],
+      phpVersion: null
     }
   });
 };
@@ -42,6 +44,94 @@ const isWordPressDirectory = async (directory) => {
     return true;
   } catch (error) {
     return false;
+  }
+};
+
+// Function to detect PHP version
+const detectPhpVersion = async () => {
+  try {
+    return new Promise((resolve, reject) => {
+      exec('php -v', { timeout: 5000 }, (error, stdout, stderr) => {
+        if (error) {
+          console.warn('PHP not detected in PATH:', error.message);
+          resolve(null);
+          return;
+        }
+
+        // Parse PHP version from output: PHP 8.1.5 (cli) ...
+        const match = stdout.match(/PHP (\d+\.\d+\.\d+)/);
+        if (match) {
+          const version = match[1];
+          console.log(`PHP ${version} detected`);
+          resolve(version);
+        } else {
+          console.warn('Could not parse PHP version from output');
+          resolve(null);
+        }
+      });
+    });
+  } catch (error) {
+    console.error('Error detecting PHP version:', error);
+    return null;
+  }
+};
+
+// Function to detect WordPress version
+const detectWordPressVersion = async (directory) => {
+  try {
+    const versionFile = path.join(directory, 'wp-includes', 'version.php');
+    const content = await fs.promises.readFile(versionFile, 'utf8');
+
+    // Parse $wp_version = '6.4.2';
+    const match = content.match(/\$wp_version\s*=\s*['"]([^'"]+)['"]/);
+    if (match) {
+      const version = match[1];
+      console.log(`WordPress ${version} detected`);
+      return version;
+    } else {
+      console.warn('Could not parse WordPress version from version.php');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error detecting WordPress version:', error);
+    return null;
+  }
+};
+
+// Function to get combined version info with caching
+const getVersionInfo = async (wpDirectory) => {
+  if (!store) {
+    console.warn('Store not initialized');
+    return { php: null, wordpress: null };
+  }
+
+  try {
+    // Check cache for PHP version
+    let phpVersion = store.get('phpVersion');
+    if (!phpVersion) {
+      phpVersion = await detectPhpVersion();
+      if (phpVersion) {
+        store.set('phpVersion', phpVersion);
+      }
+    }
+
+    // Check cache for WordPress version for this directory
+    const wpCacheKey = `wpVersion:${wpDirectory}`;
+    let wpVersion = store.get(wpCacheKey);
+    if (!wpVersion) {
+      wpVersion = await detectWordPressVersion(wpDirectory);
+      if (wpVersion) {
+        store.set(wpCacheKey, wpVersion);
+      }
+    }
+
+    return {
+      php: phpVersion,
+      wordpress: wpVersion
+    };
+  } catch (error) {
+    console.error('Error getting version info:', error);
+    return { php: null, wordpress: null };
   }
 };
 
@@ -267,6 +357,49 @@ ipcMain.handle('execute-code', async (event, wpDirectory, code) => {
   } catch (error) {
     console.error('Error executing code:', error);
     throw error;
+  }
+});
+
+// Handle version info request
+ipcMain.handle('get-version-info', async (event, wpDirectory) => {
+  try {
+    const versionInfo = await getVersionInfo(wpDirectory);
+    return versionInfo;
+  } catch (error) {
+    console.error('Error getting version info:', error);
+    return { php: null, wordpress: null };
+  }
+});
+
+// Handle completions request
+ipcMain.handle('get-completions', async (event, wpDirectory) => {
+  try {
+    // Get version info
+    const versionInfo = await getVersionInfo(wpDirectory);
+
+    // If no versions detected, return fallback completions
+    if (!versionInfo.php && !versionInfo.wordpress) {
+      console.warn('No PHP or WordPress version detected, using fallback completions');
+      return getFallbackCompletions();
+    }
+
+    // Get all completions with caching
+    const completions = await getAllCompletions(wpDirectory, versionInfo, store);
+    return completions;
+  } catch (error) {
+    console.error('Error getting completions:', error);
+    return getFallbackCompletions();
+  }
+});
+
+// Handle clear completion cache request
+ipcMain.handle('clear-completion-cache', async (event, wpDirectory) => {
+  try {
+    clearCompletionCache(wpDirectory, store);
+    return { success: true };
+  } catch (error) {
+    console.error('Error clearing completion cache:', error);
+    return { success: false, error: error.message };
   }
 });
 

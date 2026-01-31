@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import RecentDirectories from './components/RecentDirectories';
+import CodeEditor from './components/CodeEditor';
 
 function App() {
   const [selectedDirectory, setSelectedDirectory] = useState(null);
@@ -8,7 +9,43 @@ function App() {
   const [output, setOutput] = useState('');
   const [isExecuting, setIsExecuting] = useState(false);
   const [error, setError] = useState(null);
-  const textareaRef = useRef(null);
+  const [completions, setCompletions] = useState({ php: [], wordpress: [] });
+  const [isLoadingCompletions, setIsLoadingCompletions] = useState(false);
+  const [versionInfo, setVersionInfo] = useState({ php: null, wordpress: null });
+
+  // Load completions when directory changes
+  useEffect(() => {
+    const loadCompletions = async () => {
+      if (!selectedDirectory) return;
+
+      setIsLoadingCompletions(true);
+      try {
+        const result = await window.electronAPI.getCompletions(selectedDirectory);
+        const phpCount = result.php?.length || 0;
+        const wpCount = result.wordpress?.length || 0;
+
+        setCompletions({ php: result.php || [], wordpress: result.wordpress || [] });
+        setVersionInfo(result.versions || { php: null, wordpress: null });
+
+        // Log status
+        if (!result.versions.php && !result.versions.wordpress) {
+          console.warn('⚠ PHP and WordPress versions not detected. Using fallback completions.');
+        } else if (!result.versions.php) {
+          console.warn('⚠ PHP not detected. WordPress functions loaded.');
+        } else if (!result.versions.wordpress) {
+          console.warn('⚠ WordPress version not detected. Using fallback.');
+        } else {
+          console.log(`✓ Loaded ${phpCount} PHP functions and ${wpCount} WordPress functions`);
+        }
+      } catch (error) {
+        console.error('Error loading completions:', error);
+        setCompletions({ php: [], wordpress: [] });
+      }
+      setIsLoadingCompletions(false);
+    };
+
+    loadCompletions();
+  }, [selectedDirectory]);
 
   const handleSelectDirectory = async () => {
     setIsSelecting(true);
@@ -72,28 +109,6 @@ function App() {
     await window.electronAPI.quitApp();
   };
 
-  const handleKeyDown = (e) => {
-    // Handle Tab key for indentation
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      const start = e.target.selectionStart;
-      const end = e.target.selectionEnd;
-      const newCode = code.substring(0, start) + '    ' + code.substring(end);
-      setCode(newCode);
-      
-      // Set cursor position after the tab
-      setTimeout(() => {
-        textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + 4;
-      }, 0);
-    }
-    
-    // Handle Ctrl/Cmd + Enter for execution
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      e.preventDefault();
-      handleExecuteCode();
-    }
-  };
-
   return (
     <div className="h-screen flex flex-col bg-gray-100">
       <div className="flex-1 p-4 overflow-hidden">
@@ -116,6 +131,19 @@ function App() {
                     <p className="bg-white px-4 py-2.5 rounded-md border border-gray-200 font-mono text-sm text-gray-600 break-all">
                       {selectedDirectory}
                     </p>
+                    {!isLoadingCompletions && (
+                      <div className="text-xs mt-2">
+                        {(versionInfo.php || versionInfo.wordpress) ? (
+                          <p className="text-gray-500">
+                            {versionInfo.php && `PHP ${versionInfo.php}`}
+                            {versionInfo.php && versionInfo.wordpress && ' | '}
+                            {versionInfo.wordpress && `WordPress ${versionInfo.wordpress}`}
+                          </p>
+                        ) : (
+                          <p className="text-amber-600">⚠ Version detection unavailable - using basic completions</p>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <button
                     onClick={handleSelectDirectory}
@@ -132,16 +160,20 @@ function App() {
                 <div className="flex-1 flex flex-col min-h-0">
                   <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-semibold text-gray-800">Code Editor</h2>
-                    <span className="text-xs text-gray-500">Ctrl/Cmd + Enter to execute</span>
+                    <div className="flex items-center gap-3">
+                      {isLoadingCompletions && (
+                        <span className="text-xs text-blue-600">Loading IntelliSense...</span>
+                      )}
+                      <span className="text-xs text-gray-500">Ctrl/Cmd + Enter to execute</span>
+                    </div>
                   </div>
-                  <div className="code-editor flex-1 min-h-0">
-                    <textarea
-                      ref={textareaRef}
+                  <div className="flex-1 min-h-0">
+                    <CodeEditor
                       value={code}
-                      onChange={(e) => setCode(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      placeholder="Enter your WordPress PHP code here..."
-                      className="h-full"
+                      onChange={(newValue) => setCode(newValue || '')}
+                      onExecute={handleExecuteCode}
+                      completions={completions}
+                      isLoadingCompletions={isLoadingCompletions}
                     />
                   </div>
                   <div className="flex gap-3 flex-none mt-4">
