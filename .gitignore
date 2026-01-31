@@ -38,7 +38,5 @@ Thumbs.db
 out/
 
 # Generated files
-assets/icons/
-assets/tray-icon.png
 renderer/index.js
 renderer/index.js.LICENSE.txt
