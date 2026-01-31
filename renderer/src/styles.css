@@ -21,24 +21,27 @@ code {
   background: #1e1e1e;
   border-radius: 8px;
   overflow: hidden;
+  position: relative;
+  height: 100%;
 }
 
-.code-editor textarea {
-  background: #1e1e1e;
-  color: #d4d4d4;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 16px;
-  border: none;
-  outline: none;
-  resize: none;
-  width: 100%;
-  box-sizing: border-box;
+/* Monaco editor scrollbar customization to match VS Code dark theme */
+.code-editor .monaco-scrollable-element > .scrollbar > .slider {
+  background: rgba(121, 121, 121, 0.4) !important;
 }
 
-.code-editor textarea::selection {
-  background: #264f78;
+.code-editor .monaco-scrollable-element > .scrollbar > .slider:hover {
+  background: rgba(100, 100, 100, 0.7) !important;
+}
+
+.code-editor .monaco-scrollable-element > .scrollbar > .slider.active {
+  background: rgba(191, 191, 191, 0.4) !important;
+}
+
+/* Force parameter hints widget to appear below the cursor */
+.monaco-editor .parameter-hints-widget {
+  /* Override the inline top positioning to shift widget down */
+  transform: translateY(calc(5em + 4px)) !important;
 }
 
 .output-area {
