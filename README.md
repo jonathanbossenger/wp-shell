@@ -1,6 +1,10 @@
 # WP Shell
 
+<img src="./screenshots/icon.png" width="64" height="64" alt="WP Shell Icon" />
+
 A companion app to [WP Debug](https://github.com/jonathanbossenger/wp-debug) that lets you connect to a local WordPress installation and execute any WordPress PHP code directly from a desktop application.
+
+![WP Shell Screenshot](./screenshots/wp-shell-01.png)
 
 ## Features
 
@@ -50,29 +54,6 @@ npm run make
 
 - PHP must be installed and available in your system PATH
 - A local WordPress installation
-
-## Example Code
-
-```php
-// Get recent posts
-$posts = get_posts(array('numberposts' => 5));
-foreach ($posts as $post) {
-    echo $post->post_title . "\n";
-}
-
-// Get site information
-echo "Site URL: " . get_site_url() . "\n";
-echo "Site Name: " . get_bloginfo('name') . "\n";
-
-// Create a new post
-$post_data = array(
-    'post_title' => 'Test Post',
-    'post_content' => 'This is a test post',
-    'post_status' => 'publish'
-);
-$post_id = wp_insert_post($post_data);
-echo "Created post with ID: " . $post_id . "\n";
-```
 
 ## Technology Stack
 
