@@ -9,5 +9,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openExternal: (url) => shell.openExternal(url),
   getVersionInfo: (directory) => ipcRenderer.invoke('get-version-info', directory),
   getCompletions: (directory) => ipcRenderer.invoke('get-completions', directory),
-  clearCompletionCache: (directory) => ipcRenderer.invoke('clear-completion-cache', directory)
+  clearCompletionCache: (directory) => ipcRenderer.invoke('clear-completion-cache', directory),
+  promptPhpPath: () => ipcRenderer.invoke('prompt-php-path'),
+  clearPhpPath: () => ipcRenderer.invoke('clear-php-path')
 });

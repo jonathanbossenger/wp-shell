@@ -294,14 +294,14 @@ window.electronAPI.clearCompletionCache(wpDirectory)
 
 ```javascript
 const {
-  loadPhpFunctions,
-  loadWordPressFunctions,
-  discoverPhpFunctions,
-  discoverWordPressFunctions,
-  getAllCompletions,
-  clearCompletionCache,
-  getFallbackCompletions
-} = require('./main/function-loader');
+    loadPhpFunctions,
+    loadWordPressFunctions,
+    discoverPhpFunctions,
+    discoverWordPressFunctions,
+    getAllCompletions,
+    clearCompletionCache,
+    getFallbackCompletions
+} = require('./function-loader');
 
 // Load PHP functions for specific version
 const phpFunctions = await loadPhpFunctions('8.1.5');
@@ -314,9 +314,9 @@ const phpFunctions = await discoverPhpFunctions('8.1.5', store);
 
 // Get all completions
 const completions = await getAllCompletions(
-  '/path/to/wordpress',
-  { php: '8.1.5', wordpress: '6.4.2' },
-  store
+    '/path/to/wordpress',
+    {php: '8.1.5', wordpress: '6.4.2'},
+    store
 );
 ```
 

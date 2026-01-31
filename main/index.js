@@ -3,11 +3,13 @@ const path = require('path');
 const fs = require('fs');
 const { exec } = require('child_process');
 const { getAllCompletions, clearCompletionCache, getFallbackCompletions } = require('./function-loader');
+const { resolvePhpPath, promptForPhpPath, clearPhpPath } = require('./php-path-resolver');
 
 let mainWindow = null;
 let tray = null;
 let isCleaningUp = false;
 let store = null;
+let resolvedPhpPath = null;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -20,9 +22,18 @@ const initStore = async () => {
   store = new Store({
     defaults: {
       recentDirectories: [],
-      phpVersion: null
+      phpVersion: null,
+      customPhpPath: null
     }
   });
+
+  // Resolve PHP path after store is initialized
+  resolvedPhpPath = await resolvePhpPath(store);
+  if (resolvedPhpPath) {
+    console.log('PHP resolved successfully');
+  } else {
+    console.warn('PHP not found - user will need to configure it');
+  }
 };
 
 // Function to add a directory to recent list
@@ -50,10 +61,21 @@ const isWordPressDirectory = async (directory) => {
 // Function to detect PHP version
 const detectPhpVersion = async () => {
   try {
+    // If PHP path is not resolved, try to prompt user
+    if (!resolvedPhpPath) {
+      console.warn('PHP path not resolved, attempting to prompt user...');
+      resolvedPhpPath = await promptForPhpPath(store);
+      if (!resolvedPhpPath) {
+        console.warn('User did not select PHP binary');
+        return null;
+      }
+    }
+
     return new Promise((resolve, reject) => {
-      exec('php -v', { timeout: 5000 }, (error, stdout, stderr) => {
+      const phpCommand = `"${resolvedPhpPath}" -v`;
+      exec(phpCommand, { timeout: 5000 }, (error, stdout, stderr) => {
         if (error) {
-          console.warn('PHP not detected in PATH:', error.message);
+          console.warn('PHP execution failed:', error.message);
           resolve(null);
           return;
         }
@@ -138,12 +160,21 @@ const getVersionInfo = async (wpDirectory) => {
 // Function to execute PHP code in WordPress context
 const executeWordPressCode = async (wpDirectory, code) => {
   try {
+    // If PHP path is not resolved, try to prompt user
+    if (!resolvedPhpPath) {
+      console.warn('PHP path not resolved, attempting to prompt user...');
+      resolvedPhpPath = await promptForPhpPath(store);
+      if (!resolvedPhpPath) {
+        throw new Error('PHP not found. Please install PHP or configure the PHP path.');
+      }
+    }
+
     // Create a temporary PHP file
     const tempFile = path.join(wpDirectory, 'wp-shell-temp.php');
-    
+
     // Normalize path for PHP (use forward slashes even on Windows)
     const wpLoadPath = path.join(wpDirectory, 'wp-load.php').replace(/\\/g, '/');
-    
+
     // Wrap the code to load WordPress and capture output
     const wrappedCode = `<?php
 define('WP_USE_THEMES', false);
@@ -169,9 +200,10 @@ echo $output;
 
     await fs.promises.writeFile(tempFile, wrappedCode);
 
-    // Execute the PHP file
+    // Execute the PHP file with quoted path to handle spaces
     return new Promise((resolve, reject) => {
-      exec(`php ${tempFile}`, {
+      const phpCommand = `"${resolvedPhpPath}" "${tempFile}"`;
+      exec(phpCommand, {
         cwd: wpDirectory,
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
         timeout: 30000, // 30 second timeout
@@ -184,7 +216,12 @@ echo $output;
         }
 
         if (error) {
-          reject(new Error(stderr || error.message));
+          // Check if it's a PHP path issue
+          if (error.message.includes('command not found') || error.message.includes('is not recognized')) {
+            reject(new Error('PHP_PATH_ERROR: PHP executable not found. Please configure the PHP path.'));
+          } else {
+            reject(new Error(stderr || error.message));
+          }
           return;
         }
 
@@ -399,6 +436,40 @@ ipcMain.handle('clear-completion-cache', async (event, wpDirectory) => {
     return { success: true };
   } catch (error) {
     console.error('Error clearing completion cache:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+// Handle PHP path prompt request
+ipcMain.handle('prompt-php-path', async () => {
+  try {
+    const phpPath = await promptForPhpPath(store);
+    if (phpPath) {
+      resolvedPhpPath = phpPath;
+      // Clear cached PHP version to force re-detection
+      if (store) {
+        store.delete('phpVersion');
+      }
+      return { success: true, path: phpPath };
+    }
+    return { success: false, error: 'No PHP binary selected' };
+  } catch (error) {
+    console.error('Error prompting for PHP path:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+// Handle clear PHP path request
+ipcMain.handle('clear-php-path', async () => {
+  try {
+    clearPhpPath(store);
+    resolvedPhpPath = await resolvePhpPath(store, true); // Force fresh detection
+    if (store) {
+      store.delete('phpVersion');
+    }
+    return { success: true, path: resolvedPhpPath };
+  } catch (error) {
+    console.error('Error clearing PHP path:', error);
     return { success: false, error: error.message };
   }
 });

@@ -54,6 +54,8 @@
     "autoprefixer": "^10.4.19",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^10.0.1",
+    "fix-path": "^5.0.0",
+    "glob": "^13.0.0",
     "monaco-editor": "^0.52.0",
     "postcss": "^8.4.38",
     "react": "^18.2.0",

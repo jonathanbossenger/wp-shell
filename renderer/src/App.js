@@ -9,6 +9,7 @@ function App() {
   const [output, setOutput] = useState('');
   const [isExecuting, setIsExecuting] = useState(false);
   const [error, setError] = useState(null);
+  const [phpPathIssue, setPhpPathIssue] = useState(false);
   const [completions, setCompletions] = useState({ php: [], wordpress: [] });
   const [isLoadingCompletions, setIsLoadingCompletions] = useState(false);
   const [versionInfo, setVersionInfo] = useState({ php: null, wordpress: null });
@@ -86,6 +87,7 @@ function App() {
 
     setIsExecuting(true);
     setError(null);
+    setPhpPathIssue(false);
     setOutput('Executing...');
 
     try {
@@ -93,11 +95,42 @@ function App() {
       setOutput(result || '(No output)');
     } catch (error) {
       console.error('Error executing code:', error);
-      setError(error.message || 'Error executing code');
+      const errorMessage = error.message || 'Error executing code';
+
+      // Check if it's a PHP path issue
+      if (errorMessage.includes('PHP_PATH_ERROR') ||
+          errorMessage.includes('php: command not found') ||
+          errorMessage.includes('php is not recognized')) {
+        setPhpPathIssue(true);
+        setError('PHP not found. Please configure the PHP path to continue.');
+      } else {
+        setError(errorMessage);
+      }
       setOutput('');
     }
 
     setIsExecuting(false);
+  };
+
+  const handleConfigurePhpPath = async () => {
+    try {
+      const result = await window.electronAPI.promptPhpPath();
+      if (result.success) {
+        setPhpPathIssue(false);
+        setError(null);
+        // Reload version info
+        if (selectedDirectory) {
+          const versionInfo = await window.electronAPI.getVersionInfo(selectedDirectory);
+          setVersionInfo(versionInfo);
+        }
+        setOutput('PHP path configured successfully. You can now execute code.');
+      } else {
+        setError(result.error || 'Failed to configure PHP path');
+      }
+    } catch (error) {
+      console.error('Error configuring PHP path:', error);
+      setError(error.message || 'Error configuring PHP path');
+    }
   };
 
   const handleClearOutput = () => {
@@ -117,7 +150,15 @@ function App() {
             <h1 className="text-3xl font-bold text-gray-800">WP Shell</h1>
             {error && (
               <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-700">{error}</p>
+                <p className="text-red-700 mb-2">{error}</p>
+                {phpPathIssue && (
+                  <button
+                    onClick={handleConfigurePhpPath}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-sm text-sm"
+                  >
+                    Configure PHP Path
+                  </button>
+                )}
               </div>
             )}
           </div>
