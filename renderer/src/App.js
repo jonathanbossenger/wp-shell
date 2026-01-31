@@ -125,14 +125,14 @@ function App() {
           {selectedDirectory ? (
             <div className="flex-1 flex flex-col p-6 pt-0 overflow-hidden">
               <div className="bg-gray-50 rounded-lg p-6 border border-gray-200 flex-none">
-                <div className="flex justify-between items-center gap-4">
+                <div className="flex justify-between items-start gap-4">
                   <div className="flex-1">
-                    <p className="font-medium text-gray-700 mb-2">WordPress Directory</p>
-                    <p className="bg-white px-4 py-2.5 rounded-md border border-gray-200 font-mono text-sm text-gray-600 break-all">
-                      {selectedDirectory}
-                    </p>
+                    <div className="mb-2">
+                      <span className="font-medium text-gray-700">WordPress Directory: </span>
+                      <span className="font-mono text-sm text-gray-600 break-all">{selectedDirectory}</span>
+                    </div>
                     {!isLoadingCompletions && (
-                      <div className="text-xs mt-2">
+                      <div className="text-xs">
                         {(versionInfo.php || versionInfo.wordpress) ? (
                           <p className="text-gray-500">
                             {versionInfo.php && `PHP ${versionInfo.php}`}
@@ -148,7 +148,7 @@ function App() {
                   <button
                     onClick={handleSelectDirectory}
                     disabled={isSelecting}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg disabled:opacity-50 whitespace-nowrap transition-colors duration-200 shadow-sm h-[42px] self-end"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg disabled:opacity-50 whitespace-nowrap transition-colors duration-200 shadow-sm"
                   >
                     {isSelecting ? 'Selecting...' : 'Change Directory'}
                   </button>
