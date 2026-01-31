@@ -123,6 +123,32 @@ npm run make
 
 This creates distributable packages for your platform in the `out/` directory.
 
+## Releases
+
+WP Shell uses an automated GitHub Actions workflow to create releases:
+
+1. **Prerequisites**
+   - Ensure all changes are merged to the main branch
+   - Update version in `package.json` if needed
+   - Tag the commit with the version (e.g., `v1.0.0`)
+
+2. **Automated Release**
+   - Navigate to **Actions** → **Release app** in the GitHub repository
+   - Click **Run workflow**
+   - Select the branch/tag to release
+   - The workflow will automatically:
+     - Build for Linux, Windows, and macOS
+     - Create distributable packages
+     - Publish to GitHub Releases
+     - Add macOS quarantine workaround instructions
+
+3. **Manual Release** (alternative)
+   ```bash
+   npm run publish
+   ```
+   
+   Note: Requires `GH_TOKEN` environment variable with GitHub Personal Access Token.
+
 ## Pull Request Process
 
 1. **Update Documentation**
