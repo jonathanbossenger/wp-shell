@@ -33,7 +33,7 @@ jobs:
 
       - name: Publish app
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPLE_ARCH: ${{ matrix.os.arch }}
         run: npm run publish
 
